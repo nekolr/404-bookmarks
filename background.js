@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-browser.browserAction.onClicked.addListener(() => {
-    browser.tabs.create({url: "/index.html"});
+chrome.browserAction.onClicked.addListener(() => {
+    chrome.tabs.create({ url: "/index.html" });
 });
 
 const IGNORED_SCHEME = /^(place|about|javascript|data)\:/i;
@@ -14,6 +14,7 @@ async function findDead(error, progress) {
     let running = 0;
     function work(queue, error, progress) {
         if (running > 30) {
+            // 如果正在运行的检测超过 30 则等待 500 ms 后再放入队列
             setTimeout(work, 500, queue, error, progress);
             return;
         }
@@ -58,7 +59,7 @@ async function findDead(error, progress) {
         work(queue, error, progress);
     }
 
-    browser.bookmarks.search({}).then(bookmarks => {
+    chrome.bookmarks.search({}, bookmarks => {
         let queue = [];
         for (const bookmark of bookmarks) {
             const url = bookmark.url;
@@ -76,15 +77,15 @@ async function findDead(error, progress) {
 function onMessage(message, sender, sendResponse) {
     if (message.type == "find_dead") {
         findDead((bookmark, error) => {
-            browser.tabs.sendMessage(sender.tab.id, {type: "dead", bookmark, error});
+            chrome.tabs.sendMessage(sender.tab.id, { type: "dead", bookmark, error });
         }, (id, found) => {
-            browser.tabs.sendMessage(sender.tab.id, {type: "alive", id, found});
+            chrome.tabs.sendMessage(sender.tab.id, { type: "alive", id, found });
         });
     } else if (message.type == "remove") {
-        browser.bookmarks.remove(message.id);
+        chrome.bookmarks.remove(message.id);
     }
 
     return true;
 }
 
-browser.runtime.onMessage.addListener(onMessage);
+chrome.runtime.onMessage.addListener(onMessage);

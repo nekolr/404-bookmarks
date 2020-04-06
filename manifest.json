@@ -1,30 +1,30 @@
 {
-
-  "description": "Show and remove expired bookmarks",
   "manifest_version": 2,
   "name": "404 Bookmarks",
-  "version": "1.7",
-
+  "description": "Show and remove expired bookmarks",
+  "version": "0.0.1",
   "icons": {
-    "48": "icon.svg"
+    "16": "images/icon_16.png",
+    "32": "images/icon_32.png",
+    "48": "images/icon_48.png",
+    "128": "images/icon_128.png"
   },
-
   "permissions": [
-    "bookmarks", "<all_urls>"
+    "bookmarks",
+    "<all_urls>"
   ],
-
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
-
   "browser_action": {
     "default_title": "404 Bookmarks",
-    "default_icon": "icon.svg"
-  },
-  
-  "applications": {
-    "gecko": {
-      "id": "{5f8d31ba-47fb-4b70-bf8d-d2113f6da22f}"
+    "default_icon": {
+      "16": "images/icon_16.png",
+      "32": "images/icon_32.png",
+      "48": "images/icon_48.png",
+      "128": "images/icon_128.png"
     }
   }
 }
