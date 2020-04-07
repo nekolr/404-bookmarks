@@ -70,7 +70,7 @@ function onMessage(message) {
 }
 
 chrome.runtime.onMessage.addListener(onMessage);
-// 发送死链检测开始的消息
+// Send a message to start checkdead
 chrome.runtime.sendMessage({ type: "find_dead" });
 
 function update(name) {

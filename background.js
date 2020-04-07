@@ -14,7 +14,6 @@ async function findDead(error, progress) {
     let running = 0;
     function work(queue, error, progress) {
         if (running > 30) {
-            // 如果正在运行的检测超过 30 则等待 500 ms 后再放入队列
             setTimeout(work, 500, queue, error, progress);
             return;
         }
